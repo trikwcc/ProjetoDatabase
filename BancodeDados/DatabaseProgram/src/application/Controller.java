@@ -68,7 +68,7 @@ public class Controller implements Initializable {
 					alert.setContentText("Sucessfull Login");
 					
 					loginBtch.getScene().getWindow().hide();
-					Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+					Parent root = FXMLLoader.load(getClass().getResource("Teladealter.fxml"));
 					Stage stage = new Stage();
 					Scene scene = new Scene(root);
 					stage.setScene(scene);

@@ -24,7 +24,7 @@ public class Main extends Application {
 	public void start(Stage stage) {
 		try {
 			Image icon = new Image("Icon.png");
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("principal.fxml"));
 
 			Parent root = loader.load();
 
