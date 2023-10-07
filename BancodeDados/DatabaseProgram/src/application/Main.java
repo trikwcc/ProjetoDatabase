@@ -14,9 +14,8 @@ public class Main extends Application {
 	private double y = 0;
 
 	public static void main(String[] args) {
+		
 		launch(args);
-		Database db = new Database();
-		db.connect();
 
 	}
 
