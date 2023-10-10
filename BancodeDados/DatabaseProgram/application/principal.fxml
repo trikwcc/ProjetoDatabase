@@ -41,7 +41,7 @@
                         <Font name="Yu Gothic Regular" size="16.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="loginBtch" layoutX="92.0" layoutY="301.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@application.css" text="Login">
+                  <Button fx:id="loginBtch" layoutX="92.0" layoutY="301.0" mnemonicParsing="false" onAction="#loginAdmin" prefHeight="30.0" prefWidth="270.0" styleClass="login-btn" stylesheets="@application.css" text="Login">
                      <font>
                         <Font name="Arial Italic" size="17.0" />
                      </font>

@@ -14,9 +14,8 @@ public class Main extends Application {
 	private double y = 0;
 
 	public static void main(String[] args) {
+		
 		launch(args);
-		Database db = new Database();
-		db.connect();
 
 	}
 
@@ -24,7 +23,7 @@ public class Main extends Application {
 	public void start(Stage stage) {
 		try {
 			Image icon = new Image("Icon.png");
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("principal.fxml"));
 
 			Parent root = loader.load();
 
