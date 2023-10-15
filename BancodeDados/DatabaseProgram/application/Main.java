@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,7 +21,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			Image icon = new Image("Icon.png");
+			/* Image icon = new Image("Icon.png"); */
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("principal.fxml"));
 
 			Parent root = loader.load();
@@ -52,7 +51,7 @@ public class Main extends Application {
 			stage.setTitle("Police Data Fetcher");
 			stage.setResizable(false);
 
-			stage.getIcons().add(icon);
+			/* stage.getIcons().add(icon); */
 			stage.setScene(scene);
 			stage.show();
 		} catch (Exception e) {

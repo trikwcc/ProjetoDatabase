@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.mainScreen">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -46,12 +46,12 @@
                         <Font name="Arial Italic" size="17.0" />
                      </font>
                   </Button>
-                  <Button fx:id="close" layoutX="418.0" layoutY="3.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="31.0" styleClass="close" stylesheets="@application.css">
+                  <Button fx:id="close" layoutX="418.0" layoutY="1.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="31.0" styleClass="close" stylesheets="@application.css">
                      <font>
                         <Font name="Calibri Bold" size="12.0" />
                      </font>
                      <graphic>
-                        <FontAwesomeIcon glyphName="CLOSE" />
+                        <FontAwesomeIcon glyphName="CLOSE" size="20" />
                      </graphic></Button>
                   <Label alignment="CENTER" layoutX="4.0" layoutY="131.0" prefHeight="47.0" prefWidth="450.0" stylesheets="@application.css" text="Entrar na conta" textFill="#6f17cd">
                      <font>
