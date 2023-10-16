@@ -37,7 +37,7 @@
     -fx-font-family:"Arial";
     -fx-font-size:14px;
     -fx-text-fill:#fff;
-    -fx-alignment:CENTER-LEFT;
+    -fx-alignment:CENTER;
 }
 
 .logout{
