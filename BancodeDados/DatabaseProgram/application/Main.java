@@ -1,9 +1,11 @@
 package application;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -13,9 +15,7 @@ public class Main extends Application {
 	private double y = 0;
 
 	public static void main(String[] args) {
-		
 		launch(args);
-
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class Main extends Application {
 
 			String css = getClass().getResource("application.css").toExternalForm();
 			scene.getStylesheets().add(css);
+
 
 			stage.setTitle("Police Data Fetcher");
 			stage.setResizable(false);
