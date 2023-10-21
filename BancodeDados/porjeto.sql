@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS criminal (
     gender CHAR(1) CHECK (gender IN ('M', 'F')), 
     image VARCHAR(255),
     date DATE,
-    due DATE,
+    due INT,
     timeNeedsServedInJail INT,
     incarceratedOrArrested BOOLEAN DEFAULT FALSE,
     setToArrest BOOLEAN DEFAULT FALSE
