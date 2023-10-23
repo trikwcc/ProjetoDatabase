@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS admin (
     id SERIAL PRIMARY KEY,
     username VARCHAR(18) NOT NULL,
     password VARCHAR(100) NOT NULL,
-    date DATE
+    access_date DATE
 );
 
 CREATE TABLE IF NOT EXISTS policeOfficer (
@@ -10,7 +10,12 @@ CREATE TABLE IF NOT EXISTS policeOfficer (
     username VARCHAR(18) NOT NULL,
     password VARCHAR(100) NOT NULL,
     position VARCHAR(100) NOT NULL,
-    date DATE
+    gender CHAR(1) CHECK (gender IN ('M', 'F')),
+    time_worked INT DEFAULT "0",
+    people_arrested INT DEFAULT "0",
+    started_time DATE,
+    Active boolean,
+    access_date DATE
 );
 
 CREATE TABLE IF NOT EXISTS criminal (
@@ -21,9 +26,9 @@ CREATE TABLE IF NOT EXISTS criminal (
     image VARCHAR(255),
     date DATE,
     due INT,
-    timeNeedsServedInJail INT,
-    incarceratedOrArrested BOOLEAN DEFAULT FALSE,
-    setToArrest BOOLEAN DEFAULT FALSE
+    time_needsJail INT,
+    incarcerated_Arrested BOOLEAN DEFAULT FALSE,
+    set_Arrest BOOLEAN DEFAULT FALSE
 );
 
 INSERT INTO admin (username, password) VALUES ('admin', 'admin123');
