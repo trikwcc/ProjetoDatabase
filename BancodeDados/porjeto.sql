@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS criminal (
     lastName VARCHAR(255) NOT NULL,
     gender CHAR(1) CHECK (gender IN ('M', 'F')),
     image VARCHAR(255),
-    date DATE,
-    due INT,
-    time_needsJail INT,
-    incarcerated_Arrested BOOLEAN DEFAULT FALSE,
+    birth_date DATE,
+    arrest_time DATE,
+    due VARCHAR(25),
+    arrested BOOLEAN DEFAUTL FALSE
     set_Arrest BOOLEAN DEFAULT FALSE
 );
 
