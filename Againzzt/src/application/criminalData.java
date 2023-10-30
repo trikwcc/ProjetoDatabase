@@ -7,25 +7,24 @@ public class criminalData {
     private String firstName;
     private String lastName;
     private char gender;
-    private String image;
-    private Date date;
     private int due;
-    private int timeNeedsJail;
-    private boolean incarceratedArrested;
+    private String image;
+    private Date arrestTime;
+    private boolean arrested;
     private boolean setArrest;
 
     public criminalData() {
     }
 
-    public criminalData(String firstName, String lastName, char gender, String image, Date date, int due, int timeNeedsJail) {
-        this.firstName = firstName;
+    public criminalData(int criminalId, String firstName, String lastName, String gender, int due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
+        this.criminalId = criminalId;
+    	this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender;
+        this.gender = gender.charAt(0);
         this.image = image;
-        this.date = date;
+        this.arrestTime = arrestTime;
         this.due = due;
-        this.timeNeedsJail = timeNeedsJail;
-        this.incarceratedArrested = false; // Default value
+        this.arrested = false; // Default value
         this.setArrest = false; // Default value
     }
 
@@ -61,22 +60,6 @@ public class criminalData {
         this.gender = gender;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public int getDue() {
         return due;
     }
@@ -85,20 +68,28 @@ public class criminalData {
         this.due = due;
     }
 
-    public int getTimeNeedsJail() {
-        return timeNeedsJail;
+    public String getImage() {
+        return image;
     }
 
-    public void setTimeNeedsJail(int timeNeedsJail) {
-        this.timeNeedsJail = timeNeedsJail;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public boolean isIncarceratedArrested() {
-        return incarceratedArrested;
+    public Date getArrestTime() {
+        return arrestTime;
     }
 
-    public void setIncarceratedArrested(boolean incarceratedArrested) {
-        this.incarceratedArrested = incarceratedArrested;
+    public void setArrestTime(Date arrestTime) {
+        this.arrestTime = arrestTime;
+    }
+
+    public boolean isArrested() {
+        return arrested;
+    }
+
+    public void setArrested(boolean arrested) {
+        this.arrested = arrested;
     }
 
     public boolean isSetArrest() {
