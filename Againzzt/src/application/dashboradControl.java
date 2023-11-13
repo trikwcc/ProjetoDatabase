@@ -1,10 +1,13 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -27,9 +30,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -69,28 +75,28 @@ public class dashboradControl {
 	private Button addCriminal_btn;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_Arrested;
+	private TableColumn<criminalData, String> addCriminal_col_Arrested;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_Due;
+	private TableColumn<criminalData, String> addCriminal_col_Due;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_arrestTime;
+	private TableColumn<criminalData, String> addCriminal_col_arrestTime;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_criminalID;
+	private TableColumn<criminalData, String> addCriminal_col_criminalID;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_firstName;
+	private TableColumn<criminalData, String> addCriminal_col_firstName;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_gender;
+	private TableColumn<criminalData, String> addCriminal_col_gender;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_lastName;
+	private TableColumn<criminalData, String> addCriminal_col_lastName;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_setArrest;
+	private TableColumn<criminalData, String> addCriminal_col_setArrest;
 
 	@FXML
 	private TextField addCriminal_firstName;
@@ -108,7 +114,7 @@ public class dashboradControl {
 	private ComboBox<?> addCriminal_setArrest;
 
 	@FXML
-	private TableView<?> addCriminal_tableView;
+	private TableView<criminalData> addCriminal_tableView;
 
 	@FXML
 	private AnchorPane addPolice;
@@ -325,16 +331,53 @@ public class dashboradControl {
 
 	@FXML
 	private TextField police_username;
+	
+	@FXML
+	private TextField addCriminal_criminalID;
 
 	@FXML
 	private Label username;
-
+	
+	private Image image;
+	
 	private Connection connect;
 	private Statement statement;
 	private PreparedStatement prepare;
 	private ResultSet result;
 
-	public ObservableList<criminalData> addCriminalData() {
+
+	public void addCriminalADD() {
+		
+		Date date = new Date();
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		
+		String sql = "INSERT INTO criminal " 
+					+ "(criminalId, firstName, lastName, gender, due, image, arrestTime, arrested, setArrest)"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		connect = Database.connectDb();
+		
+		try {
+			prepare = connect.prepareStatement(sql);
+			prepare.setString(1, addCriminal_criminalID.getText());
+			prepare.setString(2,1);
+		} catch (SQLException e) {e.printStackTrace();}
+		
+	}
+	
+	public void addCriminalInsertImage() {
+		FileChooser open = new FileChooser();
+		File file = open.showOpenDialog(main_form.getScene().getWindow());
+		
+		if(file != null) {
+			getData.path = file.getAbsolutePath();
+			image = new Image(file.toURI().toString(), 132, 188, false, true);
+			addCriminal_Image.setImage(image);
+		}
+		
+	}
+	
+	public ObservableList<criminalData> pushList() {
 
 		ObservableList<criminalData> listdata = FXCollections.observableArrayList();
 		String sql = "SELECT * FROM criminal";
@@ -347,7 +390,7 @@ public class dashboradControl {
 			criminalData crimdata;
 
 			while (result.next()) {
-				crimdata = new criminalData(
+				crimdata = new criminalData(	 
 						result.getInt("criminalId"), 
 						result.getString("firstName"),
 						result.getString("lastName"), 
@@ -359,17 +402,40 @@ public class dashboradControl {
 						result.getBoolean("setArrest"));
 				listdata.add(crimdata);
 			}
-		} catch (Exception e) {e.printStackTrace();}
-		
+		} catch (Exception e) {e.printStackTrace();}		
 		return listdata;
 	}
 	
+	public ObservableList<criminalData> addCriminalData;
 	public void addCriminalShowListData() {
+		addCriminalData = pushList();
 		
+		addCriminal_col_criminalID.setCellValueFactory(new PropertyValueFactory<>("criminalId"));
+		addCriminal_col_firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		addCriminal_col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		addCriminal_col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+		addCriminal_col_Due.setCellValueFactory(new PropertyValueFactory<>("due"));
+		addCriminal_col_arrestTime.setCellValueFactory(new PropertyValueFactory<>("arrestTime"));
+		addCriminal_col_Arrested.setCellValueFactory(new PropertyValueFactory<>("arrested"));
+		addCriminal_col_setArrest.setCellValueFactory(new PropertyValueFactory<>("setArrest"));
+		
+		addCriminal_tableView.setItems(addCriminalData);
 	}
-
-	public void displayUsername() {
-		username.setText(getData.username);
+	
+	public void addCriminalSelect() {
+		criminalData crimData = addCriminal_tableView.getSelectionModel().getSelectedItem();
+		int num = addCriminal_tableView.getSelectionModel().getSelectedIndex();
+		
+		if((num - 1) < 1) {return;}
+		
+		addCriminal_firstName.setText(crimData.getFirstName());
+		addCriminal_lastName.setText(crimData.getLastName());
+		
+		String uri = "file:" + crimData.getImage();
+		
+		image = new Image(uri, 132, 188, false, true);
+		addCriminal_Image.setImage(image);
+		
 	}
 
 	public void switchForm(ActionEvent event) {
@@ -452,6 +518,12 @@ public class dashboradControl {
 		}
 	}
 
+	public void displayUsername() {
+		try {
+			username.setText(getData.username);	
+		} catch (Exception e) {e.printStackTrace();}
+	}
+	
 	public void close() {
 		Platform.exit();
 	}
@@ -460,7 +532,7 @@ public class dashboradControl {
 		Stage stage = (Stage) main_form.getScene().getWindow();
 		stage.setIconified(true);
 	}
-
+	
 	public void initialize(URL location, ResourceBundle resources) {
 		displayUsername();
 		throw new UnsupportedOperationException("Not supported yet.s");

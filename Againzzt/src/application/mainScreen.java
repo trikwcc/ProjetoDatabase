@@ -77,10 +77,7 @@ public class mainScreen implements Initializable {
                     showErrorAlert("Usuário ou Senha errados");
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {e.printStackTrace();}
     }
 
     @Override
@@ -125,9 +122,7 @@ public class mainScreen implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
     }
     
     public void close() {

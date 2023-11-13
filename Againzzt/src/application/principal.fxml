@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.mainScreen">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.mainScreen">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -31,12 +31,12 @@
             </AnchorPane>
             <AnchorPane layoutX="451.0" prefHeight="600.0" prefWidth="450.0" styleClass="right-form" stylesheets="@application.css">
                <children>
-                  <PasswordField fx:id="password" layoutX="92.0" layoutY="251.0" prefHeight="30.0" prefWidth="270.0" promptText="Password" styleClass="textfield" stylesheets="@application.css">
+                  <PasswordField fx:id="password" layoutX="92.0" layoutY="251.0" onAction="#loginAdmin" prefHeight="30.0" prefWidth="270.0" promptText="Password" styleClass="textfield" stylesheets="@application.css">
                      <font>
                         <Font name="Yu Gothic Regular" size="16.0" />
                      </font>
                   </PasswordField>
-                  <TextField fx:id="username" layoutX="92.0" layoutY="207.0" prefHeight="30.0" prefWidth="270.0" promptText="Username" styleClass="textfield" stylesheets="@application.css">
+                  <TextField fx:id="username" layoutX="92.0" layoutY="207.0" onAction="#loginAdmin" prefHeight="30.0" prefWidth="270.0" promptText="Username" styleClass="textfield" stylesheets="@application.css">
                      <font>
                         <Font name="Yu Gothic Regular" size="16.0" />
                      </font>
