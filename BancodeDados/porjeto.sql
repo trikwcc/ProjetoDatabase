@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS policeOfficer (
 );
 
 CREATE TABLE IF NOT EXISTS criminal (
-    criminalId SERIAL PRIMARY KEY,
+    criminalID SERIAL PRIMARY KEY,
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     gender CHAR(1) CHECK (gender IN ('M', 'F')),

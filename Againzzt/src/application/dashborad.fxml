@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
+<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="1500.0" styleClass="top-form" stylesheets="@dashborad.css">
          <children>
@@ -27,7 +27,7 @@
                </font>
             </Label>
             <FontAwesomeIcon glyphName="USERS" layoutX="8.0" layoutY="39.0" size="35" tabSize="30" wrappingWidth="46.0" />
-            <Button fx:id="minimise" layoutX="1399.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" styleClass="minimize" stylesheets="@dashborad.css">
+            <Button fx:id="minimise" layoutX="1399.0" layoutY="1.0" mnemonicParsing="false" onAction="#minimize" prefHeight="25.0" prefWidth="46.0" styleClass="minimize" stylesheets="@dashborad.css">
                <graphic>
                   <FontAwesomeIcon glyphName="MINUS" />
                </graphic>

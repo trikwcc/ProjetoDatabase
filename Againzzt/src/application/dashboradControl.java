@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -347,10 +348,7 @@ public class dashboradControl {
 
 
 	public void addCriminalADD() {
-		
-		Date date = new Date();
-		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-		
+	
 		String sql = "INSERT INTO criminal " 
 					+ "(criminalId, firstName, lastName, gender, due, image, arrestTime, arrested, setArrest)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -358,11 +356,44 @@ public class dashboradControl {
 		connect = Database.connectDb();
 		
 		try {
-			prepare = connect.prepareStatement(sql);
-			prepare.setString(1, addCriminal_criminalID.getText());
-			prepare.setString(2,1);
-		} catch (SQLException e) {e.printStackTrace();}
+			Alert alert;
+			if(addCriminal_criminalID.getText().isEmpty()
+				|| addCriminal_firstName.getText().isEmpty()
+				|| addCriminal_lastName.getText().isEmpty()
+				|| addCriminal_gender.getSelectionModel().getSelectedItem() == null
+				|| addCriminal_Due.getText().isEmpty()
+				|| criminalBirthDate1.getValue() == null
+				|| addCriminal_AorE.getSelectionModel().getSelectedItem() == null
+				|| addCriminal_setArrest.getSelectionModel().getSelectedItem() == null
+				|| getData.path == null || getData.path == "") {
+					alert = new Alert (AlertType.ERROR);
+					alert.setTitle("Error Message");
+					alert.setHeaderText(null);
+					alert.setContentText("Por favor preencha as tabelas");
+					alert.showAndWait();
+			} else {
+				
+				String check = "SELECT criminalID FROM criminal WHERE criminalID = '"
+						+addCriminal_criminalID.getText()+"'";
+
+				statement = connect.createStatement();
+				result = statement.executeQuery(check);
+				
+				prepare = connect.prepareStatement(sql);
+				prepare.setString(1, addCriminal_criminalID.getText());
+				prepare.setString(2, addCriminal_firstName.getText());
+				prepare.setString(3, addCriminal_lastName.getText());
+				prepare.setString(4, (String) addCriminal_gender.getSelectionModel().getSelectedItem());
+				prepare.setString(5, addCriminal_Due.getText());
+
+				LocalDate birthDate = criminalBirthDate1.getValue();
+				java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate);
+				prepare.setDate(6, sqlDate);
+				prepare.setString(7, (String) addCriminal_AorE.getSelectionModel().getSelectedItem());
+				prepare.setString(8, (String) addCriminal_setArrest.getSelectionModel().getSelectedItem());
+			}
 		
+		} catch (SQLException e) {e.printStackTrace();}
 	}
 	
 	public void addCriminalInsertImage() {

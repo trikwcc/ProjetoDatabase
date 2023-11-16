@@ -3,7 +3,7 @@ package application;
 import java.sql.Date;
 
 public class criminalData {
-    private int criminalId;
+    private int criminalID;
     private String firstName;
     private String lastName;
     private char gender;
@@ -17,7 +17,7 @@ public class criminalData {
     }
 
     public criminalData(int criminalId, String firstName, String lastName, String gender, int due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
-        this.criminalId = criminalId;
+        this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender.charAt(0);
@@ -29,11 +29,11 @@ public class criminalData {
     }
 
     public int getCriminalId() {
-        return criminalId;
+        return criminalID;
     }
 
     public void setCriminalId(int criminalId) {
-        this.criminalId = criminalId;
+        this.criminalID = criminalId;
     }
 
     public String getFirstName() {
