@@ -190,7 +190,7 @@ public class dashboradControl {
 	private Button close;
 
 	@FXML
-	private DatePicker criminalBirthDate1;
+	private DatePicker criminalBirthDate;
 
 	@FXML
 	private Button criminal_Clear;
@@ -346,6 +346,12 @@ public class dashboradControl {
 	private PreparedStatement prepare;
 	private ResultSet result;
 
+	private String [] positionList = {"Marketer Coordinator", "Dog Trainer", "Web Designer"};
+	
+	public void addCriminalPositionList() {
+		List <String>
+	}
+	
 
 	public void addCriminalADD() {
 	
@@ -362,38 +368,77 @@ public class dashboradControl {
 				|| addCriminal_lastName.getText().isEmpty()
 				|| addCriminal_gender.getSelectionModel().getSelectedItem() == null
 				|| addCriminal_Due.getText().isEmpty()
-				|| criminalBirthDate1.getValue() == null
+				|| criminalBirthDate.getValue() == null
 				|| addCriminal_AorE.getSelectionModel().getSelectedItem() == null
 				|| addCriminal_setArrest.getSelectionModel().getSelectedItem() == null
 				|| getData.path == null || getData.path == "") {
-					alert = new Alert (AlertType.ERROR);
-					alert.setTitle("Error Message");
-					alert.setHeaderText(null);
-					alert.setContentText("Por favor preencha as tabelas");
-					alert.showAndWait();
-			} else {
 				
-				String check = "SELECT criminalID FROM criminal WHERE criminalID = '"
-						+addCriminal_criminalID.getText()+"'";
+				alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Message");
+				alert.setHeaderText(null);
+				alert.setContentText("Por favor preencha as tabelas");
+				alert.showAndWait();
+			
+			} else {
+
+				String check = "SELECT criminalID FROM criminal WHERE criminalID = '" + addCriminal_criminalID.getText()
+						+ "'";
 
 				statement = connect.createStatement();
 				result = statement.executeQuery(check);
-				
-				prepare = connect.prepareStatement(sql);
-				prepare.setString(1, addCriminal_criminalID.getText());
-				prepare.setString(2, addCriminal_firstName.getText());
-				prepare.setString(3, addCriminal_lastName.getText());
-				prepare.setString(4, (String) addCriminal_gender.getSelectionModel().getSelectedItem());
-				prepare.setString(5, addCriminal_Due.getText());
 
-				LocalDate birthDate = criminalBirthDate1.getValue();
-				java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate);
-				prepare.setDate(6, sqlDate);
-				prepare.setString(7, (String) addCriminal_AorE.getSelectionModel().getSelectedItem());
-				prepare.setString(8, (String) addCriminal_setArrest.getSelectionModel().getSelectedItem());
+				if (result.next()) {
+					alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error Message");
+					alert.setHeaderText(null);
+					alert.setContentText("Criminal ID: " + addCriminal_criminalID.getText() + " already exist!");
+					alert.showAndWait();
+				} else {
+
+					String uri = getData.path;
+					uri = uri.replace("\\", "\\\\");
+
+					prepare = connect.prepareStatement(sql);
+					prepare.setString(1, addCriminal_criminalID.getText());
+					prepare.setString(2, addCriminal_firstName.getText());
+					prepare.setString(3, addCriminal_lastName.getText());
+					prepare.setString(4, (String) addCriminal_gender.getSelectionModel().getSelectedItem());
+					prepare.setString(5, addCriminal_Due.getText());
+					prepare.setString(6, uri);
+					
+					LocalDate birthDate = criminalBirthDate.getValue();
+					java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate);
+					prepare.setDate(7, sqlDate);
+					prepare.setString(8, (String) addCriminal_AorE.getSelectionModel().getSelectedItem());
+					prepare.setString(9, (String) addCriminal_setArrest.getSelectionModel().getSelectedItem());
+					prepare.executeUpdate();
+
+					alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Information Message");
+					alert.setHeaderText(null);
+					alert.setContentText("Sucessfully Added");
+					alert.showAndWait();
+					
+					addCriminalReset();
+					addCriminalShowListData();
+					
+				}
 			}
-		
+
 		} catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	public void addCriminalReset() {
+		addCriminal_criminalID.setText("");
+		addCriminal_firstName.setText("");
+		addCriminal_lastName.setText("");
+		addCriminal_gender.getSelectionModel().clearSelection();
+		addCriminal_Due.setText("");
+		addCriminal_Image.setImage(null);
+		getData.path = "";
+		criminalBirthDate.setValue(null); 
+		addCriminal_AorE.getSelectionModel().clearSelection();
+		addCriminal_setArrest.getSelectionModel().clearSelection();
 	}
 	
 	public void addCriminalInsertImage() {
@@ -544,9 +589,7 @@ public class dashboradControl {
 				stage.show();
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
 	public void displayUsername() {
