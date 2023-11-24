@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
+<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="1500.0" styleClass="top-form" stylesheets="@dashborad.css">
          <children>
@@ -57,7 +57,7 @@
                   <FontAwesomeIcon fill="WHITE" glyphName="CHAIN" />
                </graphic>
             </Button>
-            <Button fx:id="gerenciarPol_btn" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Gerenciar Policiais">
+            <Button fx:id="gerenciarPol_btn" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Gerenciar Policiais" visible="false">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="SEARCH" text="" />
                </graphic>
@@ -102,7 +102,7 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <Button fx:id="addPolice_btn" layoutX="35.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Adicionar Policiais">
+            <Button fx:id="addPolice_btn" layoutX="35.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Adicionar Policiais" visible="false">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="ARCHIVE" text="" />
                </graphic>
@@ -350,7 +350,7 @@
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <TextField fx:id="addCriminal_search" layoutX="9.0" layoutY="14.0" prefHeight="26.0" prefWidth="328.0" styleClass="search" stylesheets="@dashborad.css">
+                        <TextField fx:id="addCriminal_search" layoutX="9.0" layoutY="14.0" prefHeight="26.0" prefWidth="328.0" styleClass="search" stylesheets="@dashborad.css" text="as">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -387,7 +387,7 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="addCriminal_gender" layoutX="160.0" layoutY="500.0" prefHeight="26.0" prefWidth="175.0" promptText="Choose" />
+                  <ComboBox fx:id="addCriminal_gender" layoutX="160.0" layoutY="500.0" onAction="#addCriminalGenderList" prefHeight="26.0" prefWidth="175.0" promptText="Choose" />
                   <Label layoutX="378.0" layoutY="456.0" text="Arrested:">
                      <font>
                         <Font name="Arial" size="18.0" />
@@ -398,8 +398,8 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="addCriminal_setArrest" layoutX="500.0" layoutY="501.0" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
-                  <ComboBox fx:id="addCriminal_AorE" layoutX="500.0" layoutY="450.0" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
+                  <ComboBox fx:id="addCriminal_setArrest" layoutX="500.0" layoutY="501.0" onAction="#addCriminalsetArrest" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
+                  <ComboBox fx:id="addCriminal_AorE" layoutX="500.0" layoutY="450.0" onAction="#addCriminalArrested" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
                   <AnchorPane layoutX="990.0" layoutY="385.0" prefHeight="210.0" prefWidth="138.0" stylesheets="@dashborad.css">
                      <styleClass>
                         <String fx:value="white-bg" />

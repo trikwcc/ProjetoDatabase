@@ -3,36 +3,44 @@ package application;
 import java.sql.Date;
 
 public class criminalData {
-    private int criminalID;
+    private Integer criminalID;
     private String firstName;
     private String lastName;
-    private char gender;
+    private String gender;
     private int due;
     private String image;
-    private Date arrestTime;
+    private Date arresttime;
     private boolean arrested;
     private boolean setArrest;
 
-    public criminalData() {
-    }
-
-    public criminalData(int criminalId, String firstName, String lastName, String gender, int due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, int due, Date arrestTime, boolean arrested, boolean setArrest) {
         this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender.charAt(0);
-        this.image = image;
-        this.arrestTime = arrestTime;
+        this.gender = gender;
+        this.arresttime = arrestTime;
         this.due = due;
-        this.arrested = false; // Default value
-        this.setArrest = false; // Default value
+        this.arrested = false;
+        this.setArrest = false;
     }
 
-    public int getCriminalId() {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, int due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
+        this.criminalID = criminalId;
+    	this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender);
+        this.image = image;
+        this.arresttime = arrestTime;
+        this.due = due;
+        this.arrested = false;
+        this.setArrest = false;
+    }
+
+    public Integer getCriminalId() {
         return criminalID;
     }
 
-    public void setCriminalId(int criminalId) {
+    public void setCriminalId(Integer criminalId) {
         this.criminalID = criminalId;
     }
 
@@ -52,11 +60,11 @@ public class criminalData {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -77,11 +85,11 @@ public class criminalData {
     }
 
     public Date getArrestTime() {
-        return arrestTime;
+        return arresttime;
     }
 
     public void setArrestTime(Date arrestTime) {
-        this.arrestTime = arrestTime;
+        this.arresttime = arrestTime;
     }
 
     public boolean isArrested() {

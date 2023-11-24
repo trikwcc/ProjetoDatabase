@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -337,7 +338,7 @@ public class dashboradControl {
 	private TextField addCriminal_criminalID;
 
 	@FXML
-	private Label username;
+    private Label username;
 	
 	private Image image;
 	
@@ -346,23 +347,54 @@ public class dashboradControl {
 	private PreparedStatement prepare;
 	private ResultSet result;
 
-	private String [] positionList = {"Marketer Coordinator", "Dog Trainer", "Web Designer"};
+	public AlertMessage alert  = new AlertMessage();
 	
-	public void addCriminalPositionList() {
-		List <String>
+	private String[] arrested = {"Yes", "No"};
+	private String[] setArrest = {"Yes", "No"};
+	private String[] listGender = {"Male", "Female", "Others"};
+
+	public ObservableList<criminalData> addCriminalData;
+	
+	public void addCriminalArrested() {
+		List <String> listA = new ArrayList<>();
+		
+		for(String data: arrested) {
+			listA.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listA);
+		addCriminal_AorE.setItems(listData);
 	}
 	
+	public void addCriminalsetArrest() {
+		List <String> listB = new ArrayList<>();
+		
+		for(String data: setArrest) {
+			listB.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listB);
+		addCriminal_setArrest.setItems(listData);
+		
+	}
+	
+	public void addCriminalGenderList() {
+		List <String> listG = new ArrayList<>();
+		
+		for(String data: listGender) {
+			listG.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listG);
+		addCriminal_gender.setItems(listData);
+	}
 
 	public void addCriminalADD() {
 	
 		String sql = "INSERT INTO criminal " 
-					+ "(criminalId, firstName, lastName, gender, due, image, arrestTime, arrested, setArrest)"
+					+ "(criminalId, firstName, lastName, gender, due, image, arresttime, arrested, setArrest)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		connect = Database.connectDb();
 		
 		try {
-			Alert alert;
 			if(addCriminal_criminalID.getText().isEmpty()
 				|| addCriminal_firstName.getText().isEmpty()
 				|| addCriminal_lastName.getText().isEmpty()
@@ -373,14 +405,10 @@ public class dashboradControl {
 				|| addCriminal_setArrest.getSelectionModel().getSelectedItem() == null
 				|| getData.path == null || getData.path == "") {
 				
-				alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error Message");
-				alert.setHeaderText(null);
-				alert.setContentText("Por favor preencha as tabelas");
-				alert.showAndWait();
+				alert.errorMessage("Por favor preencha as tabelas");
 			
 			} else {
-
+				
 				String check = "SELECT criminalID FROM criminal WHERE criminalID = '" + addCriminal_criminalID.getText()
 						+ "'";
 
@@ -388,18 +416,14 @@ public class dashboradControl {
 				result = statement.executeQuery(check);
 
 				if (result.next()) {
-					alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Error Message");
-					alert.setHeaderText(null);
-					alert.setContentText("Criminal ID: " + addCriminal_criminalID.getText() + " already exist!");
-					alert.showAndWait();
+					alert.errorMessage("Criminal ID: " + addCriminal_criminalID.getText() + " already exist!");
 				} else {
 
 					String uri = getData.path;
 					uri = uri.replace("\\", "\\\\");
 
 					prepare = connect.prepareStatement(sql);
-					prepare.setString(1, addCriminal_criminalID.getText());
+					prepare.setInt(1, Integer.parseInt(addCriminal_criminalID.getText()));
 					prepare.setString(2, addCriminal_firstName.getText());
 					prepare.setString(3, addCriminal_lastName.getText());
 					prepare.setString(4, (String) addCriminal_gender.getSelectionModel().getSelectedItem());
@@ -409,16 +433,11 @@ public class dashboradControl {
 					LocalDate birthDate = criminalBirthDate.getValue();
 					java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate);
 					prepare.setDate(7, sqlDate);
-					prepare.setString(8, (String) addCriminal_AorE.getSelectionModel().getSelectedItem());
-					prepare.setString(9, (String) addCriminal_setArrest.getSelectionModel().getSelectedItem());
-					prepare.executeUpdate();
+					prepare.setBoolean(8, addCriminal_AorE.getSelectionModel().getSelectedItem().equals("Yes"));
+			        prepare.setBoolean(9, addCriminal_setArrest.getSelectionModel().getSelectedItem().equals("Yes"));
 
-					alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Information Message");
-					alert.setHeaderText(null);
-					alert.setContentText("Sucessfully Added");
-					alert.showAndWait();
-					
+					prepare.executeUpdate();
+					alert.successMessage("Sucessfully Added");
 					addCriminalReset();
 					addCriminalShowListData();
 					
@@ -482,7 +501,6 @@ public class dashboradControl {
 		return listdata;
 	}
 	
-	public ObservableList<criminalData> addCriminalData;
 	public void addCriminalShowListData() {
 		addCriminalData = pushList();
 		
@@ -540,6 +558,9 @@ public class dashboradControl {
 		} else if (event.getSource() == addCriminal_btn) {
 			addCriminal.setVisible(true);
 			setButtonStyle(addCriminal_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
+			addCriminalArrested();
+			addCriminalsetArrest();
+			addCriminalGenderList();
 		} else if (event.getSource() == addPolice_btn) {
 			addPolice.setVisible(true);
 			setButtonStyle(addPolice_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
@@ -609,6 +630,8 @@ public class dashboradControl {
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		displayUsername();
-		throw new UnsupportedOperationException("Not supported yet.s");
+		addCriminalArrested();
+		addCriminalsetArrest();
+		addCriminalGenderList();
 	}
 }

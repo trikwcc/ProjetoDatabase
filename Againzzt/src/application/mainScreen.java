@@ -40,7 +40,6 @@ public class mainScreen implements Initializable {
     @FXML
     private TextField username;
 
-    private Alert alert;
     private Connection connect;
     private PreparedStatement prepared;
     private ResultSet result;
@@ -50,6 +49,8 @@ public class mainScreen implements Initializable {
 
     private double x = 0;
     private double y = 0;
+    
+    private AlertMessage alert = new AlertMessage();
 
     public void loginAdmin() {
         connect = Database.connectDb();
@@ -61,10 +62,11 @@ public class mainScreen implements Initializable {
             result = prepared.executeQuery();
 
             if (username.getText().isEmpty() || password.getText().isEmpty()) {
-                showErrorAlert("Por favor preencha as linhas vazias");
+            	alert.errorMessage("Por favor preencha as linhas vazias");
             } else if (result.next()) {
             	getData.username = username.getText();
-                changeTab("Login realizado com sucesso");
+            	alert.successMessage("Login realizado com sucesso");
+            	closeCurrentWindowAndOpenDashboard();
             } else {
                 prepared = connect.prepareStatement(police);
                 prepared.setString(1, username.getText());
@@ -72,9 +74,10 @@ public class mainScreen implements Initializable {
                 result = prepared.executeQuery();
                 
                 if (result.next()) {
-                    changeTab("Login realizado com sucesso");
+                    alert.successMessage("Login realizado com sucesso");
+                    closeCurrentWindowAndOpenDashboard();
                 } else {
-                    showErrorAlert("Usuário ou Senha errados");
+                	alert.errorMessage("Usuário ou Senha errados");
                 }
             }
         } catch (Exception e) {e.printStackTrace();}
@@ -82,24 +85,6 @@ public class mainScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
-
-    private void showErrorAlert(String message) {
-        alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error Message");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void changeTab(String successMessage) {
-        alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information Message");
-        alert.setHeaderText(null);
-        alert.setContentText(successMessage);
-        alert.showAndWait();
-
-        closeCurrentWindowAndOpenDashboard();
     }
     
     private void closeCurrentWindowAndOpenDashboard() {
