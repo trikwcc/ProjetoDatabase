@@ -72,8 +72,8 @@ public class mainScreen implements Initializable {
                 prepared.setString(1, username.getText());
                 prepared.setString(2, password.getText());
                 result = prepared.executeQuery();
-                
                 if (result.next()) {
+                	getData.username = username.getText();
                     alert.successMessage("Login realizado com sucesso");
                     closeCurrentWindowAndOpenDashboard();
                 } else {

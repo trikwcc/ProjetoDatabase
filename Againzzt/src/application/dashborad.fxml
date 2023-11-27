@@ -70,7 +70,7 @@
                   <Font size="14.0" />
                </font>
                <graphic>
-                  <FontAwesomeIcon glyphName="SIGN_OUT" size="20" />
+                  <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="20" />
                </graphic>
                <styleClass>
                   <String fx:value="logout" />
@@ -350,7 +350,7 @@
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <TextField fx:id="addCriminal_search" layoutX="9.0" layoutY="14.0" prefHeight="26.0" prefWidth="328.0" styleClass="search" stylesheets="@dashborad.css" text="as">
+                        <TextField fx:id="addCriminal_search" layoutX="9.0" layoutY="14.0" prefHeight="26.0" prefWidth="328.0" styleClass="search" stylesheets="@dashborad.css">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -358,7 +358,7 @@
                         <FontAwesomeIcon glyphName="SEARCH" layoutX="15.0" layoutY="33.0" size="18" />
                      </children>
                   </AnchorPane>
-                  <TableView fx:id="addCriminal_tableView" layoutX="18.0" layoutY="57.0" prefHeight="288.0" prefWidth="1115.0">
+                  <TableView fx:id="addCriminal_tableView" layoutX="18.0" layoutY="57.0" onMouseClicked="#addCriminalSelect" prefHeight="288.0" prefWidth="1115.0">
                     <columns>
                       <TableColumn fx:id="addCriminal_col_criminalID" prefWidth="91.0" text="Criminal ID" />
                       <TableColumn fx:id="addCriminal_col_firstName" prefWidth="271.0" text="First Name" />

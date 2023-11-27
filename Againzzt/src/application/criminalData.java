@@ -7,33 +7,33 @@ public class criminalData {
     private String firstName;
     private String lastName;
     private String gender;
-    private int due;
+    private String due;
     private String image;
     private Date arresttime;
-    private boolean arrested;
-    private boolean setArrest;
+    private String arrested;
+    private String setArrest;
 
-    public criminalData(Integer criminalId, String firstName, String lastName, String gender, int due, Date arrestTime, boolean arrested, boolean setArrest) {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, Date arrestTime, String arrested, String setArrest) {
         this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.arresttime = arrestTime;
         this.due = due;
-        this.arrested = false;
-        this.setArrest = false;
+        this.arrested = arrested;
+        this.setArrest = setArrest;
     }
 
-    public criminalData(Integer criminalId, String firstName, String lastName, String gender, int due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, String image, Date arrestTime, String arrested, String setArrest) {
         this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender);
+        this.gender = gender;
         this.image = image;
         this.arresttime = arrestTime;
         this.due = due;
-        this.arrested = false;
-        this.setArrest = false;
+        this.arrested = arrested;
+        this.setArrest = setArrest;
     }
 
     public Integer getCriminalId() {
@@ -68,11 +68,11 @@ public class criminalData {
         this.gender = gender;
     }
 
-    public int getDue() {
+    public String getDue() {
         return due;
     }
 
-    public void setDue(int due) {
+    public void setDue(String due) {
         this.due = due;
     }
 
@@ -92,19 +92,19 @@ public class criminalData {
         this.arresttime = arrestTime;
     }
 
-    public boolean isArrested() {
+    public String isArrested() {
         return arrested;
     }
 
-    public void setArrested(boolean arrested) {
+    public void setArrested(String arrested) {
         this.arrested = arrested;
     }
 
-    public boolean isSetArrest() {
+    public String isSetArrest() {
         return setArrest;
     }
 
-    public void setSetArrest(boolean setArrest) {
+    public void setSetArrest(String setArrest) {
         this.setArrest = setArrest;
     }
 }
