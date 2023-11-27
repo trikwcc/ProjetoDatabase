@@ -10,10 +10,10 @@ public class criminalData {
     private String due;
     private String image;
     private Date arresttime;
-    private String arrested;
-    private String setArrest;
+    private boolean arrested;
+    private boolean setArrest;
 
-    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, Date arrestTime, String arrested, String setArrest) {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, Date arrestTime, boolean arrested, boolean setArrest) {
         this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
@@ -24,7 +24,7 @@ public class criminalData {
         this.setArrest = setArrest;
     }
 
-    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, String image, Date arrestTime, String arrested, String setArrest) {
+    public criminalData(Integer criminalId, String firstName, String lastName, String gender, String due, String image, Date arrestTime, boolean arrested, boolean setArrest) {
         this.criminalID = criminalId;
     	this.firstName = firstName;
         this.lastName = lastName;
@@ -92,19 +92,19 @@ public class criminalData {
         this.arresttime = arrestTime;
     }
 
-    public String isArrested() {
+    public boolean isArrested() {
         return arrested;
     }
 
-    public void setArrested(String arrested) {
+    public void setArrested(boolean arrested) {
         this.arrested = arrested;
     }
 
-    public String isSetArrest() {
+    public boolean isSetArrest() {
         return setArrest;
     }
 
-    public void setSetArrest(String setArrest) {
+    public void setSetArrest(boolean setArrest) {
         this.setArrest = setArrest;
     }
 }

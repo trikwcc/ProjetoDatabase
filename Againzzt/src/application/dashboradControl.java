@@ -61,7 +61,7 @@ public class dashboradControl implements Initializable{
 	private Button addCriminal_AddBtn;
 
 	@FXML
-	private ComboBox<String> addCriminal_AorE;
+	private ComboBox<Boolean> addCriminal_AorE;
 
 	@FXML
 	private Button addCriminal_ClearBtn;
@@ -121,7 +121,7 @@ public class dashboradControl implements Initializable{
 	private TextField addCriminal_search;
 
 	@FXML
-	private ComboBox<String> addCriminal_setArrest;
+	private ComboBox<Boolean> addCriminal_setArrest;
 
 	@FXML
 	private TableView<criminalData> addCriminal_tableView;
@@ -399,7 +399,7 @@ public class dashboradControl implements Initializable{
 		for(String data: listGender) {
 			listG.add(data);
 		}
-		ObservableList<String> listData = FXCollections.observableArrayList(listG);
+		ObservableList listData = FXCollections.observableArrayList(listG);
 		addCriminal_gender.setItems(listData);
 	}
 
@@ -482,10 +482,6 @@ public class dashboradControl implements Initializable{
 		addCriminal_setArrest.getSelectionModel().clearSelection();
 	}
 	
-	public void addCriminalSearch() {
-		
-	}
-	
 	public ObservableList<criminalData> pushList() {
 
 		ObservableList<criminalData> listdata = FXCollections.observableArrayList();
@@ -525,10 +521,13 @@ public class dashboradControl implements Initializable{
 			addCriminal_Due.setText(crimData.getDue());
 			criminalBirthDate.setValue(crimData.getArrestTime().toLocalDate());
 			
-	        addCriminal_gender.getSelectionModel().select(crimData.getGender());
-			addCriminal_AorE.setValue(crimData.getArrestedAsString());
-			addCriminal_setArrest.setValue(crimData.getSetArrestAsString());
-			
+			/*
+			 * addCriminal_gender.getSelectionModel().select(crimData.getGender());
+			 * addCriminal_AorE.getSelectionModel().select(crimData.isArrested());
+			 * addCriminal_setArrest.getSelectionModel().select(crimData.isSetArrest());
+			 */
+
+	
 			getData.path = crimData.getImage();
 			String uri = "file:" + crimData.getImage();
 	
@@ -574,7 +573,6 @@ public class dashboradControl implements Initializable{
 	}
 
 	public void switchForm(ActionEvent event) {
-	    // Map buttons to panels and styles
 	    Map<Button, Pair<Pane, String>> buttonMap = new HashMap<>();
 	    buttonMap.put(home_btn, new Pair<>(home_page, "linear-gradient(to bottom right, #272b3f, #256b51)"));
 	    buttonMap.put(gerenciarPol_btn, new Pair<>(gerenc_police, "linear-gradient(to bottom right, #272b3f, #256b51)"));
@@ -582,19 +580,16 @@ public class dashboradControl implements Initializable{
 	    buttonMap.put(addCriminal_btn, new Pair<>(addCriminal, "linear-gradient(to bottom right, #272b3f, #256b51)"));
 	    buttonMap.put(addPolice_btn, new Pair<>(addPolice, "linear-gradient(to bottom right, #272b3f, #256b51)"));
 
-	    // Hide all panels and reset styles
 	    buttonMap.forEach((button, pair) -> {
 	        pair.getKey().setVisible(false);
 	        setButtonStyle(button, "transparent");
 	    });
 
-	    // Show the selected panel and set the corresponding style
 	    Pair<Pane, String> selectedPair = buttonMap.get(event.getSource());
 	    if (selectedPair != null) {
 	        selectedPair.getKey().setVisible(true);
 	        setButtonStyle((Button) event.getSource(), selectedPair.getValue());
 	        
-	        // Additional logic for specific buttons (e.g., initializing dropdowns)
 	        if (event.getSource() == addCriminal_btn) {
 	            addCriminalArrested();
 	            addCriminalsetArrest();
