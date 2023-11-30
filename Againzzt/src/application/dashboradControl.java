@@ -1,11 +1,17 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -14,26 +20,36 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
-public class dashboradControl {
+/**
+ *  @author znok, Samuel Pereira
+ * 
+ * 
+ */
+
+
+public class dashboradControl implements Initializable{
 
 	@FXML
 	private ComboBox<?> active;
@@ -45,7 +61,7 @@ public class dashboradControl {
 	private Button addCriminal_AddBtn;
 
 	@FXML
-	private ComboBox<?> addCriminal_AorE;
+	private ComboBox<Boolean> addCriminal_AorE;
 
 	@FXML
 	private Button addCriminal_ClearBtn;
@@ -69,34 +85,34 @@ public class dashboradControl {
 	private Button addCriminal_btn;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_Arrested;
+	private TableColumn<criminalData, String> addCriminal_col_Arrested;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_Due;
+	private TableColumn<criminalData, String> addCriminal_col_Due;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_arrestTime;
+	private TableColumn<criminalData, String> addCriminal_col_arrestTime;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_criminalID;
+	private TableColumn<criminalData, String> addCriminal_col_criminalID;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_firstName;
+	private TableColumn<criminalData, String> addCriminal_col_firstName;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_gender;
+	private TableColumn<criminalData, String> addCriminal_col_gender;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_lastName;
+	private TableColumn<criminalData, String> addCriminal_col_lastName;
 
 	@FXML
-	private TableColumn<?, ?> addCriminal_col_setArrest;
+	private TableColumn<criminalData, String> addCriminal_col_setArrest;
 
 	@FXML
 	private TextField addCriminal_firstName;
 
 	@FXML
-	private ComboBox<?> addCriminal_gender;
+	private ComboBox<String> addCriminal_gender;
 
 	@FXML
 	private TextField addCriminal_lastName;
@@ -105,10 +121,10 @@ public class dashboradControl {
 	private TextField addCriminal_search;
 
 	@FXML
-	private ComboBox<?> addCriminal_setArrest;
+	private ComboBox<Boolean> addCriminal_setArrest;
 
 	@FXML
-	private TableView<?> addCriminal_tableView;
+	private TableView<criminalData> addCriminal_tableView;
 
 	@FXML
 	private AnchorPane addPolice;
@@ -183,7 +199,7 @@ public class dashboradControl {
 	private Button close;
 
 	@FXML
-	private DatePicker criminalBirthDate1;
+	private DatePicker criminalBirthDate;
 
 	@FXML
 	private Button criminal_Clear;
@@ -325,16 +341,148 @@ public class dashboradControl {
 
 	@FXML
 	private TextField police_username;
+	
+	@FXML
+	private TextField addCriminal_criminalID;
 
 	@FXML
-	private Label username;
-
+    private Label username;
+	
+	private Image image;
+	
 	private Connection connect;
 	private Statement statement;
 	private PreparedStatement prepare;
 	private ResultSet result;
 
-	public ObservableList<criminalData> addCriminalData() {
+	public AlertMessage alert  = new AlertMessage();
+	
+	private String[] arrested = {"Yes", "No"};
+	private String[] setArrest = {"Yes", "No"};
+	private String[] listGender = {"Male", "Female", "Others"};
+
+	public ObservableList<criminalData> addCriminalData;
+
+	private double x = 0, y = 0;
+
+	private void defaultNav() {
+        home_page.setStyle("-fx-background-color:linear-gradient(to bottom right, #3a4368, #28966c);");
+    }
+
+	private void setButtonStyle(Button button, String style) {
+		button.setStyle("-fx-background-color: " + style + ";");
+	}
+	
+	public void addCriminalArrested() {
+		List <String> listA = new ArrayList<>();
+		
+		for(String data: arrested) {
+			listA.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listA);
+		addCriminal_AorE.setItems(listData);
+	}
+	
+	public void addCriminalsetArrest() {
+		List <String> listB = new ArrayList<>();
+		
+		for(String data: setArrest) {
+			listB.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listB);
+		addCriminal_setArrest.setItems(listData);
+	}
+	
+	public void addCriminalGenderList() {
+		List <String> listG = new ArrayList<>();
+		
+		for(String data: listGender) {
+			listG.add(data);
+		}
+		ObservableList listData = FXCollections.observableArrayList(listG);
+		addCriminal_gender.setItems(listData);
+	}
+
+	public void addCriminalADD() {
+	
+		String sql = "INSERT INTO criminal " 
+					+ "(criminalId, firstName, lastName, gender, due, image, arresttime, arrested, setArrest)"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		String check = "SELECT criminalID FROM criminal WHERE criminalID = '" + addCriminal_criminalID.getText()
+						+ "'";
+
+		String uri = getData.path;
+		uri = uri.replace("\\", "\\\\");
+
+		LocalDate birthDate = criminalBirthDate.getValue();
+		java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate);			
+		
+		connect = Database.connectDb();
+		
+		try {
+			if(addCriminal_criminalID.getText().isEmpty()
+				|| addCriminal_firstName.getText().isEmpty()
+				|| addCriminal_lastName.getText().isEmpty()
+				|| addCriminal_gender.getSelectionModel().getSelectedItem() == null
+				|| addCriminal_Due.getText().isEmpty()
+				|| criminalBirthDate.getValue() == null
+				|| addCriminal_AorE.getSelectionModel().getSelectedItem() == null
+				|| addCriminal_setArrest.getSelectionModel().getSelectedItem() == null) {
+				
+				alert.errorMessage("Por favor preencha as tabelas");
+			
+			} else {
+				statement = connect.createStatement();
+				result = statement.executeQuery(check);
+
+				if (result.next()) {
+					alert.errorMessage("Criminal ID: " + addCriminal_criminalID.getText() + " already exist!");
+				} else {
+
+					prepare = connect.prepareStatement(sql);
+					prepare.setInt(1, Integer.parseInt(addCriminal_criminalID.getText()));
+					prepare.setString(2, addCriminal_firstName.getText());
+					prepare.setString(3, addCriminal_lastName.getText());
+					prepare.setString(4, (String) addCriminal_gender.getSelectionModel().getSelectedItem());
+					prepare.setString(5, addCriminal_Due.getText());
+					prepare.setString(6, uri);
+					prepare.setDate(7, sqlDate);
+					prepare.setBoolean(8, addCriminal_AorE.getSelectionModel().getSelectedItem().equals("Yes"));
+			        prepare.setBoolean(9, addCriminal_setArrest.getSelectionModel().getSelectedItem().equals("Yes"));
+					prepare.executeUpdate();
+
+					alert.successMessage("Sucessfully Added");
+					addCriminalReset();
+					addCriminalShowListData();
+					
+				}
+			}
+		} catch (SQLException e) {e.printStackTrace();}
+	}
+
+	public void addCriminalUpdate() {
+
+	}
+
+	public void addCriminalDelete() {
+
+	}
+	
+	public void addCriminalReset() {
+		addCriminal_criminalID.setText("");
+		addCriminal_firstName.setText("");
+		addCriminal_lastName.setText("");
+		addCriminal_gender.getSelectionModel().clearSelection();
+		addCriminal_Due.setText("");
+		addCriminal_Image.setImage(null);
+		getData.path = "";
+		criminalBirthDate.setValue(null); 
+		addCriminal_AorE.getSelectionModel().clearSelection();
+		addCriminal_setArrest.getSelectionModel().clearSelection();
+	}
+	
+	public ObservableList<criminalData> pushList() {
 
 		ObservableList<criminalData> listdata = FXCollections.observableArrayList();
 		String sql = "SELECT * FROM criminal";
@@ -347,79 +495,112 @@ public class dashboradControl {
 			criminalData crimdata;
 
 			while (result.next()) {
-				crimdata = new criminalData(
+				crimdata = new criminalData(	 
 						result.getInt("criminalId"), 
 						result.getString("firstName"),
 						result.getString("lastName"), 
 						result.getString("gender"),
-						result.getInt("due"),
+						result.getString("due"),
 						result.getString("Image"),
 						result.getDate("arrestTime"),
 						result.getBoolean("arrested"),
 						result.getBoolean("setArrest"));
 				listdata.add(crimdata);
 			}
-		} catch (Exception e) {e.printStackTrace();}
-		
+		} catch (Exception e) {e.printStackTrace();}		
 		return listdata;
 	}
 	
-	public void addCriminalShowListData() {
+	
+	public void addCriminalSelect() {
+		criminalData crimData = addCriminal_tableView.getSelectionModel().getSelectedItem();
 		
-	}
+		if (crimData != null) {
+			addCriminal_firstName.setText(crimData.getFirstName());
+			addCriminal_lastName.setText(crimData.getLastName());
+			addCriminal_Due.setText(crimData.getDue());
+			criminalBirthDate.setValue(crimData.getArrestTime().toLocalDate());
+			
+			/*
+			 * addCriminal_gender.getSelectionModel().select(crimData.getGender());
+			 * addCriminal_AorE.getSelectionModel().select(crimData.isArrested());
+			 * addCriminal_setArrest.getSelectionModel().select(crimData.isSetArrest());
+			 */
 
-	public void displayUsername() {
-		username.setText(getData.username);
+	
+			getData.path = crimData.getImage();
+			String uri = "file:" + crimData.getImage();
+	
+			image = new Image(uri, 132, 188, false, true);
+			addCriminal_Image.setImage(image);
+		}
+	}
+	
+	public void addCriminalInsertImage() {
+		FileChooser open = new FileChooser();
+		File file = open.showOpenDialog(main_form.getScene().getWindow());
+		
+		if(file != null) {
+			getData.path = file.getAbsolutePath();
+			image = new Image(file.toURI().toString(), 132, 188, false, true);
+			addCriminal_Image.setImage(image);
+		}
+	}
+	
+	public void addCriminalShowListData() {
+		addCriminalData = pushList();
+		
+		addCriminal_col_criminalID.setCellValueFactory(new PropertyValueFactory<>("criminalId"));
+		addCriminal_col_firstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		addCriminal_col_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		addCriminal_col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
+		addCriminal_col_Due.setCellValueFactory(new PropertyValueFactory<>("due"));
+		addCriminal_col_arrestTime.setCellValueFactory(new PropertyValueFactory<>("arrestTime"));
+		addCriminal_col_Arrested.setCellValueFactory(new PropertyValueFactory<>("arrested"));
+		addCriminal_col_setArrest.setCellValueFactory(new PropertyValueFactory<>("setArrest"));
+		
+		addCriminal_tableView.setItems(addCriminalData);
+	}
+	
+	public void checkAcess () {
+		// SELECT check_access('user1');
+	}
+	
+	public void showLastAcessDate() {
+		String sql = "SELECT update_access_date('admin')";
+		connect = Database.connectDb();
+		System.out.println("Ultimo acesso: /n" );
 	}
 
 	public void switchForm(ActionEvent event) {
+	    Map<Button, Pair<Pane, String>> buttonMap = new HashMap<>();
+	    buttonMap.put(home_btn, new Pair<>(home_page, "linear-gradient(to bottom right, #272b3f, #256b51)"));
+	    buttonMap.put(gerenciarPol_btn, new Pair<>(gerenc_police, "linear-gradient(to bottom right, #272b3f, #256b51)"));
+	    buttonMap.put(gerenciarCrim_btn, new Pair<>(gerenc_crim, "linear-gradient(to bottom right, #272b3f, #256b51)"));
+	    buttonMap.put(addCriminal_btn, new Pair<>(addCriminal, "linear-gradient(to bottom right, #272b3f, #256b51)"));
+	    buttonMap.put(addPolice_btn, new Pair<>(addPolice, "linear-gradient(to bottom right, #272b3f, #256b51)"));
 
-		home_page.setVisible(false);
-		gerenc_crim.setVisible(false);
-		gerenc_police.setVisible(false);
-		addCriminal.setVisible(false);
-		addPolice.setVisible(false);
+	    buttonMap.forEach((button, pair) -> {
+	        pair.getKey().setVisible(false);
+	        setButtonStyle(button, "transparent");
+	    });
 
-		setButtonStyle(home_btn, "transparent");
-		setButtonStyle(gerenciarPol_btn, "transparent");
-		setButtonStyle(gerenciarCrim_btn, "transparent");
-		setButtonStyle(addCriminal_btn, "transparent");
-		setButtonStyle(addPolice_btn, "transparent");
-
-		if (event.getSource() == home_btn) {
-			home_page.setVisible(true);
-			setButtonStyle(home_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
-		} else if (event.getSource() == gerenciarPol_btn) {
-			gerenc_police.setVisible(true);
-			setButtonStyle(gerenciarPol_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
-		} else if (event.getSource() == gerenciarCrim_btn) {
-			gerenc_crim.setVisible(true);
-			setButtonStyle(gerenciarCrim_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
-		} else if (event.getSource() == addCriminal_btn) {
-			addCriminal.setVisible(true);
-			setButtonStyle(addCriminal_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
-		} else if (event.getSource() == addPolice_btn) {
-			addPolice.setVisible(true);
-			setButtonStyle(addPolice_btn, "linear-gradient(to bottom right, #272b3f, #256b51)");
-		}
+	    Pair<Pane, String> selectedPair = buttonMap.get(event.getSource());
+	    if (selectedPair != null) {
+	        selectedPair.getKey().setVisible(true);
+	        setButtonStyle((Button) event.getSource(), selectedPair.getValue());
+	        
+	        if (event.getSource() == addCriminal_btn) {
+	            addCriminalArrested();
+	            addCriminalsetArrest();
+	            addCriminalGenderList();
+	        }
+	    }
 	}
-
-	private void setButtonStyle(Button button, String style) {
-		button.setStyle("-fx-background-color: " + style + ";");
-	}
-
-	private double x = 0;
-	private double y = 0;
 
 	public void logout() {
-
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation message");
-		alert.setHeaderText(null);
-		alert.setContentText("Are you sure you want to logout?");
-		Optional<ButtonType> option = alert.showAndWait();
 		try {
-			if (option.get().equals(ButtonType.OK)) {
+			if (alert.confirmMessage("Are you sure you want to logout?")) {
 
 				logout.getScene().getWindow().hide();
 				Parent root = FXMLLoader.load(getClass().getResource("principal.fxml"));
@@ -446,12 +627,19 @@ public class dashboradControl {
 				stage.setScene(scene);
 				stage.show();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
+	public void displayUsername() {
+		try {
+			String text = getData.username;
+			if(!text.isEmpty()) {
+				text = text.substring(0, 1).toUpperCase() + text.substring(1);
+			}
+			username.setText(text);	
+		} catch (Exception e) {e.printStackTrace();}
+	}
+	
 	public void close() {
 		Platform.exit();
 	}
@@ -460,9 +648,18 @@ public class dashboradControl {
 		Stage stage = (Stage) main_form.getScene().getWindow();
 		stage.setIconified(true);
 	}
-
+	
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		displayUsername();
-		throw new UnsupportedOperationException("Not supported yet.s");
+		defaultNav();
+		
+		
+
+
+		addCriminalShowListData();
+		addCriminalArrested();
+		addCriminalsetArrest();
+		addCriminalGenderList();
 	}
 }

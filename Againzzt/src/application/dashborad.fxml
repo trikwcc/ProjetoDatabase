@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
+<AnchorPane fx:id="main_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboradControl">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="1500.0" styleClass="top-form" stylesheets="@dashborad.css">
          <children>
@@ -27,7 +27,7 @@
                </font>
             </Label>
             <FontAwesomeIcon glyphName="USERS" layoutX="8.0" layoutY="39.0" size="35" tabSize="30" wrappingWidth="46.0" />
-            <Button fx:id="minimise" layoutX="1399.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" styleClass="minimize" stylesheets="@dashborad.css">
+            <Button fx:id="minimise" layoutX="1399.0" layoutY="1.0" mnemonicParsing="false" onAction="#minimize" prefHeight="25.0" prefWidth="46.0" styleClass="minimize" stylesheets="@dashborad.css">
                <graphic>
                   <FontAwesomeIcon glyphName="MINUS" />
                </graphic>
@@ -57,7 +57,7 @@
                   <FontAwesomeIcon fill="WHITE" glyphName="CHAIN" />
                </graphic>
             </Button>
-            <Button fx:id="gerenciarPol_btn" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Gerenciar Policiais">
+            <Button fx:id="gerenciarPol_btn" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Gerenciar Policiais" visible="false">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="SEARCH" text="" />
                </graphic>
@@ -70,7 +70,7 @@
                   <Font size="14.0" />
                </font>
                <graphic>
-                  <FontAwesomeIcon glyphName="SIGN_OUT" size="20" />
+                  <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="20" />
                </graphic>
                <styleClass>
                   <String fx:value="logout" />
@@ -97,12 +97,12 @@
             </Label>
             <FontAwesomeIcon fill="WHITE" glyphName="CONNECTDEVELOP" layoutX="89.0" layoutY="131.0" size="120" text="" />
             <Line endX="115.0" layoutX="148.0" layoutY="243.0" startX="-100.0" strokeWidth="4.0" />
-            <Label fx:id="username" alignment="CENTER" layoutX="50.0" layoutY="192.0" prefHeight="39.0" prefWidth="216.0" stylesheets="@dashborad.css" text="Admin" textFill="WHITE">
+            <Label fx:id="username" alignment="CENTER" layoutX="50.0" layoutY="192.0" prefHeight="39.0" prefWidth="216.0" stylesheets="@dashborad.css" text="FFF" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Button fx:id="addPolice_btn" layoutX="35.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Adicionar Policiais">
+            <Button fx:id="addPolice_btn" layoutX="35.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="40.0" prefWidth="245.0" styleClass="nav-btn" stylesheets="@dashborad.css" text="Adicionar Policiais" visible="false">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="ARCHIVE" text="" />
                </graphic>
@@ -336,7 +336,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="addCriminal" layoutX="300.0" layoutY="50.0" prefHeight="650.0" prefWidth="1200.0" visible="false">
+      <AnchorPane fx:id="addCriminal" layoutX="300.0" layoutY="50.0" prefHeight="650.0" prefWidth="1200.0">
          <children>
             <AnchorPane layoutX="20.0" layoutY="15.0" prefHeight="620.0" prefWidth="1160.0" stylesheets="@dashborad.css">
                <styleClass>
@@ -358,7 +358,7 @@
                         <FontAwesomeIcon glyphName="SEARCH" layoutX="15.0" layoutY="33.0" size="18" />
                      </children>
                   </AnchorPane>
-                  <TableView fx:id="addCriminal_tableView" layoutX="18.0" layoutY="57.0" prefHeight="288.0" prefWidth="1115.0">
+                  <TableView fx:id="addCriminal_tableView" layoutX="18.0" layoutY="57.0" onMouseClicked="#addCriminalSelect" prefHeight="288.0" prefWidth="1115.0">
                     <columns>
                       <TableColumn fx:id="addCriminal_col_criminalID" prefWidth="91.0" text="Criminal ID" />
                       <TableColumn fx:id="addCriminal_col_firstName" prefWidth="271.0" text="First Name" />
@@ -366,8 +366,8 @@
                         <TableColumn fx:id="addCriminal_col_gender" prefWidth="53.0" text="Gender" />
                         <TableColumn fx:id="addCriminal_col_Due" prefWidth="93.0" text="Due" />
                         <TableColumn fx:id="addCriminal_col_arrestTime" prefWidth="155.666748046875" text="Arrest Time" />
-                        <TableColumn fx:id="addCriminal_col_Arrested" minWidth="0.0" prefWidth="103.333251953125" text="Arrested" />
-                        <TableColumn fx:id="addCriminal_col_setArrest" prefWidth="140.666748046875" text="Set to Arrest" />
+                        <TableColumn fx:id="addCriminal_col_Arrested" minWidth="0.0" prefWidth="97.0" text="Arrested" />
+                        <TableColumn fx:id="addCriminal_col_setArrest" maxWidth="1000.0" prefWidth="118.0" text="Set to Arrest" />
                     </columns>
                   </TableView>
                   <TextField fx:id="addCriminal_firstName" layoutX="160.0" layoutY="397.0" prefHeight="0.0" prefWidth="175.0" promptText="First Name" styleClass="textfield" stylesheets="@dashborad.css" />
@@ -387,7 +387,7 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="addCriminal_gender" layoutX="160.0" layoutY="500.0" prefHeight="26.0" prefWidth="175.0" promptText="Choose" />
+                  <ComboBox fx:id="addCriminal_gender" layoutX="160.0" layoutY="500.0" onAction="#addCriminalGenderList" prefHeight="26.0" prefWidth="175.0" promptText="Choose" />
                   <Label layoutX="378.0" layoutY="456.0" text="Arrested:">
                      <font>
                         <Font name="Arial" size="18.0" />
@@ -398,24 +398,24 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="addCriminal_setArrest" layoutX="500.0" layoutY="501.0" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
-                  <ComboBox fx:id="addCriminal_AorE" layoutX="500.0" layoutY="450.0" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
-                  <AnchorPane layoutX="990.0" layoutY="385.0" prefHeight="226.0" prefWidth="138.0" stylesheets="@dashborad.css">
+                  <ComboBox fx:id="addCriminal_setArrest" layoutX="500.0" layoutY="501.0" onAction="#addCriminalsetArrest" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
+                  <ComboBox fx:id="addCriminal_AorE" layoutX="500.0" layoutY="450.0" onAction="#addCriminalArrested" prefHeight="27.0" prefWidth="185.0" promptText="Choose" />
+                  <AnchorPane layoutX="990.0" layoutY="385.0" prefHeight="210.0" prefWidth="138.0" stylesheets="@dashborad.css">
                      <styleClass>
                         <String fx:value="white-bg" />
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <ImageView fx:id="addCriminal_Image" fitHeight="170.0" fitWidth="120.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="addCriminal_ImportBtn" layoutX="15.0" layoutY="194.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" styleClass="import-btn" stylesheets="@dashborad.css" text="Import" />
+                        <ImageView fx:id="addCriminal_Image" fitHeight="188.0" fitWidth="132.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="addCriminal_ImportBtn" layoutY="196.0" mnemonicParsing="false" onAction="#addCriminalInsertImage" prefHeight="30.0" prefWidth="138.0" styleClass="import-btn" stylesheets="@dashborad.css" text="Import" />
                      </children>
                   </AnchorPane>
-                  <Button fx:id="addCriminal_AddBtn" layoutX="721.0" layoutY="422.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="add-btn" stylesheets="@dashborad.css" text="Add">
+                  <Button fx:id="addCriminal_AddBtn" layoutX="721.0" layoutY="422.0" mnemonicParsing="false" onAction="#addCriminalADD" prefHeight="60.0" prefWidth="110.0" styleClass="add-btn" stylesheets="@dashborad.css" text="Add">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="addCriminal_ClearBtn" layoutX="721.0" layoutY="513.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" styleClass="clear-btn" stylesheets="@dashborad.css" text="Clear">
+                  <Button fx:id="addCriminal_ClearBtn" layoutX="721.0" layoutY="513.0" mnemonicParsing="false" onAction="#addCriminalReset" prefHeight="60.0" prefWidth="110.0" styleClass="clear-btn" stylesheets="@dashborad.css" text="Clear">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -436,12 +436,13 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="378.0" layoutY="403.0" text="Arrest:">
+                  <Label layoutX="378.0" layoutY="403.0" text="Arrest Time:">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="criminalBirthDate1" layoutX="500.0" layoutY="397.0" prefWidth="185.0" promptText="Arrest" />
+                  <DatePicker fx:id="criminalBirthDate" layoutX="500.0" layoutY="397.0" prefWidth="185.0" promptText="Arrest" />
+                  <TextField fx:id="addCriminal_criminalID" layoutX="452.0" layoutY="552.0" prefHeight="0.0" prefWidth="175.0" promptText="ID" styleClass="textfield" stylesheets="@dashborad.css" />
                </children>
             </AnchorPane>
          </children>
